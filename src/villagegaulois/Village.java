@@ -1,5 +1,7 @@
 package villagegaulois;
 
+import java.util.Iterator;
+
 import personnages.Chef;
 import personnages.Gaulois;
 
@@ -9,9 +11,76 @@ public class Village {
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
 
-	public Village(String nom, int nbVillageoisMaximum) {
+	public Village(String nom, int nbVillageoisMaximum , int nbrEtal) {
 		this.nom = nom;
 		villageois = new Gaulois[nbVillageoisMaximum];
+		Marche marche = new Marche(nbrEtal);
+	}
+	
+	private static  	class Marche{
+		private Etal[] etals;
+		
+		private  Marche(int nbrEtal){
+			this.etals = new Etal[nbrEtal];
+			for (int i = 0; i < nbrEtal; i++) {
+				etals[i] = new Etal();
+			}
+		}
+		
+		private void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+			etals[indiceEtal].occuperEtal(vendeur, produit, nbProduit);
+		}
+		
+		private int trouverEtalLibre(){
+			int indiceRetourne = -1;
+			for (int i = 0; i < etals.length; i++) {
+				if(etals[i].isEtalOccupe()) {
+					indiceRetourne = i;
+				}
+			}
+			return indiceRetourne;
+		}
+		
+		private Etal[] trouverEtals(String produit){
+			Etal[] etalsProduit;
+			int count = 0;
+			for (int i = 0; i < etals.length; i++) {
+				if (etals[i].contientProduit(produit)) {
+					count++;
+				}
+			}
+			etalsProduit = new Etal[count];
+			for (int j = 0; j< etals.length; j++) {
+				if (etals[j].contientProduit(produit)) {
+					etalsProduit[j] = etals[j];
+					}
+				}
+			return etalsProduit;
+		}
+	
+		private Etal trouverVendeur(Gaulois gaulois) {
+			for (int i = 0; i < etals.length; i++) {
+				if(etals[i].getVendeur().equals(gaulois)) {
+					return etals[i];
+				}
+			}
+			return null;
+		}
+		
+		private String afficherMarche() {
+			int count =0;
+			for (int i = 0; i < etals.length; i++) {
+				if(etals[i].isEtalOccupe()){
+					etals[i].afficherEtal();
+					}
+				else {
+					count++;
+				}
+				
+			}
+			return "il reste " + count + "étals non utilisés dans le marché.";
+		}
+		
 	}
 
 	public String getNom() {
@@ -56,4 +125,9 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	
+	public String installerVendeur(Gaulois vendeur, String produit,int nbProduit) {
+		
+	}
+	
 }
