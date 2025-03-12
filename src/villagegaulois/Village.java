@@ -35,7 +35,7 @@ public class Village {
 			int indiceRetourne = -1;
 			for (int i = 0; i < etals.length; i++) {
 				if(! etals[i].isEtalOccupe()) {
-					indiceRetourne = i;
+					return i + 1;
 				}
 			}
 			return indiceRetourne;
@@ -139,7 +139,7 @@ public class Village {
 		chaine.append(vendeur.getNom() + " cherche un endroit pour vendre " + nbProduit + produit);
 		int pos = marche.trouverEtalLibre();
 		marche.utiliserEtal(pos, vendeur, produit, nbProduit);
-		chaine.append("Le vendeur " + vendeur.getNom() + "vend" + produit + "à l'étal" + pos);
+		chaine.append("Le vendeur " + vendeur.getNom() + " vend" + produit + "à l'étal " + pos);
 		return chaine.toString();
 	}
 	
@@ -149,7 +149,7 @@ public class Village {
 			return "Il n'y a pas de vendeur qui propose des" + produit + "au marché." ;
 		}
 		if(etalsProduits.length == 1) {
-			return "Seul le vendeur" + etalsProduits[0].getVendeur() + "propose des" + produit + "au marché." ;
+			return "Seul le vendeur" + etalsProduits[0].getVendeur().getNom() + "propose des" + produit + "au marché." ;
 		}
 		StringBuilder chaine = new StringBuilder();
 		chaine.append("Les vendeurs qui proposent des"+ produit +"sont :\n");
